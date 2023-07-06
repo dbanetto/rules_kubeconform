@@ -64,8 +64,8 @@ def _impl(ctx):
 
     dirs = []
     for schema in ctx.files.schema_locations:
-        if schema.dirname.startswith('bazel-out'):
-            dirs += ['/'.join(schema.dirname.split('/')[3:])]
+        if schema.dirname.startswith(ctx.bin_dir.path):
+            dirs += [schema.dirname.removeprefix(ctx.bin_dir.path + '/')]
         else:
             dirs += [schema.dirname.replace("external/", "../", 1)]
     dirs = collections.uniq(dirs)
