@@ -64,6 +64,8 @@ def _impl(ctx):
 
     dirs = []
     for schema in ctx.files.schema_locations:
+        if schema.is_directory:
+            dirs += [schema.short_path.removeprefix(ctx.bin_dir.path + '/')]
         if schema.dirname.startswith(ctx.bin_dir.path):
             dirs += [schema.dirname.removeprefix(ctx.bin_dir.path + '/')]
         else:
