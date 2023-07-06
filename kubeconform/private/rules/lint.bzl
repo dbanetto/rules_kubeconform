@@ -40,6 +40,7 @@ _ATTRS = {
         default = "text",
     ),
     "schema_locations": attr.label_list(
+        allow_files = True,
         doc = "Override schemas location search paths",
     ),
 }
@@ -63,7 +64,10 @@ def _impl(ctx):
 
     dirs = []
     for schema in ctx.files.schema_locations:
-        dirs += [schema.dirname.replace("external/", "../", 1)]
+        if schema.dirname.startswith('bazel-out'):
+            dirs += ['/'.join(schema.dirname.split('/')[3:])]
+        else:
+            dirs += [schema.dirname.replace("external/", "../", 1)]
     dirs = collections.uniq(dirs)
     for d in dirs:
         cmd += ["-schema-location", "'" + "/".join([d, "{{ .ResourceKind }}{{ .KindSuffix }}.json"]) + "'"]
