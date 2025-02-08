@@ -17,14 +17,14 @@ filegroup(
 )
 
 bzl_library(
-    name = "kubeconform_import",
-    srcs = ["import.bzl"],
-    visibility = ["//:__subpackages__"],
+    name = "lint",
+    srcs = ["lint.bzl"],
+    visibility = ["//kubeconform:__subpackages__"],
+    deps = ["@bazel_skylib//lib:collections"],
 )
 
 bzl_library(
-    name = "kubeconform_lint",
-    srcs = ["lint.bzl"],
-    visibility = ["//:__subpackages__"],
-    deps = ["@bazel_skylib//lib:collections"],
+    name = "import",
+    srcs = ["import.bzl"],
+    visibility = ["//kubeconform:__subpackages__"],
 )

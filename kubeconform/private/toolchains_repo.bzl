@@ -78,7 +78,7 @@ def _toolchains_repo_impl(repository_ctx):
 
 # Forward all the providers
 def _resolved_toolchain_impl(ctx):
-    toolchain_info = ctx.toolchains["@slamdev_rules_kubeconform//kubeconform:toolchain_type"]
+    toolchain_info = ctx.toolchains["@rules_kubeconform//kubeconform:toolchain_type"]
     return [
         toolchain_info,
         toolchain_info.default,
@@ -90,7 +90,7 @@ def _resolved_toolchain_impl(ctx):
 # https://cs.opensource.google/bazel/bazel/+/master:tools/jdk/java_toolchain_alias.bzl
 resolved_toolchain = rule(
     implementation = _resolved_toolchain_impl,
-    toolchains = ["@slamdev_rules_kubeconform//kubeconform:toolchain_type"],
+    toolchains = ["@rules_kubeconform//kubeconform:toolchain_type"],
     incompatible_use_toolchain_transition = True,
 )
 """
@@ -114,7 +114,7 @@ toolchain(
     name = "{platform}_toolchain",
     exec_compatible_with = {compatible_with},
     toolchain = "@{user_repository_name}_{platform}//:kubeconform_toolchain",
-    toolchain_type = "@slamdev_rules_kubeconform//kubeconform:toolchain_type",
+    toolchain_type = "@rules_kubeconform//kubeconform:toolchain_type",
 )
 """.format(
             platform = platform,

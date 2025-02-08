@@ -1,0 +1,36 @@
+module(
+    name = "rules_kubeconform_example",
+    version = "0.0.0",
+    compatibility_level = 1,
+)
+
+bazel_dep(name = "rules_kubeconform", version = "0.0.0")
+
+local_path_override(
+    module_name = "rules_kubeconform",
+    path = "../"
+)
+
+# Extension usage
+kubeconform = use_extension("@rules_kubeconform//kubeconform:extensions.bzl", "kubeconform")
+
+kubeconform.toolchain(version="0.6.7")
+
+kubeconform.schema_import(
+    name = "kubernetes_json_schema",
+    commit = "f5e9af7e64b63484e2bf2ee28afee3f3f8e2e9b1",
+    github_repo = "yannh/kubernetes-json-schema",
+    kube_version = "1.31.0",
+    resources = {
+        "Deployment": ["apps/v1"],
+    },
+)
+
+use_repo(
+    kubeconform,
+    "kubernetes_json_schema",
+    "kubeconform_0_6_7_toolchains",
+)
+
+register_toolchains("@kubeconform_0_6_7_toolchains//...")
+

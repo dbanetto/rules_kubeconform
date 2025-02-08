@@ -4,10 +4,12 @@ load("@bazel_skylib//lib:collections.bzl", "collections")
 
 _DOC = "Defines a kubeconform lint execution."
 
+_TOOLCHAIN = "@rules_kubeconform//kubeconform:toolchain_type"
+
 _ATTRS = {
     "srcs": attr.label_list(
         doc = "Yaml files to lint.",
-        allow_files = [".yaml", ".yml"],
+        allow_files = [".yaml", ".yml", ".json"],
     ),
     "ignore_filename_patterns": attr.string_list(
         doc = "Regular expression specifying paths to ignore.",
@@ -82,7 +84,7 @@ def _impl(ctx):
 
     executable = ctx.actions.declare_file(ctx.label.name)
     ctx.actions.write(output = executable, content = " ".join(cmd))
-    runfiles = ctx.runfiles(files = ctx.toolchains["@slamdev_rules_kubeconform//kubeconform:toolchain_type"].default.files.to_list() + ctx.files.srcs + ctx.files.schema_locations)
+    runfiles = ctx.runfiles(files = ctx.toolchains[_TOOLCHAIN].default.files.to_list() + ctx.files.srcs + ctx.files.schema_locations)
     return [
         DefaultInfo(
             executable = executable,
@@ -96,5 +98,5 @@ lint_test = rule(
     attrs = _ATTRS,
     provides = [DefaultInfo],
     test = True,
-    toolchains = ["@slamdev_rules_kubeconform//kubeconform:toolchain_type"],
+    toolchains = [_TOOLCHAIN],
 )
