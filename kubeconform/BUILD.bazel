@@ -31,8 +31,19 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
-        "//kubeconform/private/rules:kubeconform_import",
-        "//kubeconform/private/rules:kubeconform_lint",
+        "//kubeconform/private/rules:import",
+        "//kubeconform/private/rules:lint",
+    ],
+)
+
+bzl_library(
+    name = "extensions",
+    srcs = ["extensions.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":repositories",
+        "//kubeconform/private/rules:import",
+        "@bazel_tools//tools/build_defs/repo:http.bzl",
     ],
 )
 
