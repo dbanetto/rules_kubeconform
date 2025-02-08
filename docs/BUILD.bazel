@@ -8,10 +8,10 @@ load("@stardoc//stardoc:stardoc.bzl", "stardoc")
 # (like //kubeconform:some.bzl) to the markdown file in this
 # folder where the API docs are written.
 _DOCS = {
-    "//kubeconform:defs": "rules.md",
-    "//kubeconform:repositories": "repositories.md",
-    "//kubeconform:toolchain": "toolchain.md",
-    "//kubeconform:extensions": "extensions.md",
+    "//kubeconform:defs.bzl": "rules.md",
+    "//kubeconform:repositories.bzl": "repositories.md",
+    "//kubeconform:toolchain.bzl": "toolchain.md",
+    "//kubeconform:extensions.bzl": "extensions.md",
 }
 
 [
